@@ -3,22 +3,23 @@ import Constants from 'expo-constants';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import Text from './Text';
+import theme from '../theme';
+import AppBarTab from './AppBarTab';
 
 const Tab = createMaterialTopTabNavigator();
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
-    background: 'black'
+    backgroundColor: theme.colors.background,
   },
-  // ...
 });
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
       <Pressable onPress={() => console.log('pressed')}>
-        <Text style={{fontSize: 20}}>Repositories</Text>
+        <AppBarTab tabName='Repositories' />
       </Pressable>
     </View>
   );
