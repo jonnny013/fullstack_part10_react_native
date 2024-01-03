@@ -1,9 +1,9 @@
 import {View, Image, StyleSheet} from 'react-native';
-import Text from './Text';
-import Subheading from './Subheading'
-import NumbersBox from './repoCards/NumbersBox';
-import theme from '../theme';
-import PersonalInfo from './repoCards/PersonalInfo';
+import Text from '../Text';
+import Subheading from '../Subheading';
+import NumbersBox from './NumbersBox';
+import theme from '../../theme';
+import PersonalInfo from './PersonalInfo';
 
 const styles = StyleSheet.create({
   headShot: {
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   languageText: {
     color: theme.colors.textWithBackground,
     marginLeft: 6,
-    marginRight: 6
+    marginRight: 6,
   },
   mainCard: {
     backgroundColor: theme.colors.cardBackground,

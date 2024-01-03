@@ -2,8 +2,8 @@ import {View, StyleSheet} from 'react-native';
 import Constants from 'expo-constants';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
-import Text from './Text';
-import theme from '../theme';
+import Text from '../Text';
+import theme from '../../theme';
 import AppBarTab from './AppBarTab';
 
 const Tab = createMaterialTopTabNavigator();

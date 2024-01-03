@@ -1,5 +1,5 @@
-import Text from "./Text"
-import theme from "../theme";
+import Text from '../Text';
+import theme from '../../theme';
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
 const AppBarTab = ({tabName}) => {
   return (
     <Text style={styles.text} fontWeight='bold'>
-     {tabName}
+      {tabName}
     </Text>
   );
-}
+};
 
-export default AppBarTab
+export default AppBarTab;
