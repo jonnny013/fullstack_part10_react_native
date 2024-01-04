@@ -1,11 +1,9 @@
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import {View, StyleSheet, ScrollView, Pressable} from 'react-native';
 import Constants from 'expo-constants';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import theme from '../../theme';
 import AppBarTab from './AppBarTab';
-import { Link } from 'react-router-native';
-
-const Tab = createMaterialTopTabNavigator();
+import {Link, useNavigate} from 'react-router-native';
+import AuthStorage from '../../utils/authStorage';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,16 +15,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBar = () => {
+const AppBar = ({setToken, token}) => {
+  const authStorage = new AuthStorage();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    authStorage.removeAccessToken();
+    setToken(null)
+    navigate('/');
+  };
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <Link to='/'>
           <AppBarTab tabName='Repositories' />
         </Link>
-        <Link to='/SignIn'>
+        {token ? <Pressable onPress={handleSignOut}>
+          <AppBarTab tabName='Sign Out' />
+        </Pressable> : <Link to='/SignIn'>
           <AppBarTab tabName='Sign In' />
-        </Link>
+        </Link>}
+        
       </ScrollView>
     </View>
   );
