@@ -6,7 +6,8 @@ const theme = {
     appBarbackground: '#289f9bb3',
     textWithBackground: 'white',
     languageBackground: '#0366d6',
-    cardBackground: 'white'
+    cardBackground: 'white',
+    button: 'blue'
   },
   fontSizes: {
     body: 16,
