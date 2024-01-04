@@ -1,6 +1,4 @@
 import {View, Image, StyleSheet} from 'react-native';
-import Text from '../Text';
-import Subheading from '../Subheading';
 import NumbersBox from './NumbersBox';
 import theme from '../../theme';
 import PersonalInfo from './PersonalInfo';
