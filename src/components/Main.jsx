@@ -3,7 +3,6 @@ import {Route, Routes, Navigate} from 'react-router-native';
 import RepositoryList from './repoCards/RepositoryList';
 import AppBar from './appBar/AppBar';
 import theme from '../theme';
-import SignIn from './signInForm/SignIn';
 import SignInIndex from './signInForm/SignInIndex';
 
 const styles = StyleSheet.create({
