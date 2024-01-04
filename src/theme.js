@@ -7,7 +7,8 @@ const theme = {
     textWithBackground: 'white',
     languageBackground: '#0366d6',
     cardBackground: 'white',
-    button: 'blue'
+    button: 'blue',
+    errorColor: '#d73a4a',
   },
   fontSizes: {
     body: 16,
