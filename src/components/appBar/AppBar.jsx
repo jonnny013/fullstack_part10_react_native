@@ -30,12 +30,18 @@ const AppBar = ({setToken, token}) => {
         <Link to='/'>
           <AppBarTab tabName='Repositories' />
         </Link>
-        {token ? <Pressable onPress={handleSignOut}>
+        {token ? (
+          <Pressable onPress={handleSignOut}>
+            <AppBarTab tabName='Sign Out' />
+          </Pressable>
+        ) : (
+          <Link to='/SignIn'>
+            <AppBarTab tabName='Sign In' />
+          </Link>
+        )}
+        <Pressable onPress={handleSignOut}>
           <AppBarTab tabName='Sign Out' />
-        </Pressable> : <Link to='/SignIn'>
-          <AppBarTab tabName='Sign In' />
-        </Link>}
-        
+        </Pressable>
       </ScrollView>
     </View>
   );

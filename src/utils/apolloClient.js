@@ -10,8 +10,10 @@ const httpLink = createHttpLink({
 
 const createApolloClient = authStorage => {
   const authLink = setContext(async (_, {headers}) => {
+    
     try {
       const accessToken = await authStorage.getAccessToken();
+      console.log('here AT', accessToken);
       return {
         headers: {
           ...headers,
@@ -19,7 +21,7 @@ const createApolloClient = authStorage => {
         },
       };
     } catch (e) {
-      console.log(e);
+      console.log('apollo error: ',e);
       return {
         headers,
       };
