@@ -67,7 +67,7 @@ describe('RepositoryList', () => {
       expect(secondRepositoryItem).toHaveTextContent('72');
       expect(secondRepositoryItem).toHaveTextContent('3');
 
-      screen.debug()
+     // screen.debug()
       
     });
   });

@@ -20,7 +20,7 @@ const validationSchema = yup.object().shape({
     .required('Password is required')
 })
 
-const SignInIndex = () => {
+export const SignInContainer = () => {
   const [signIn ] = useSignIn();
   const navigate = useNavigate();
 
@@ -33,6 +33,11 @@ const SignInIndex = () => {
       console.log(e);
     }
   };
+  return (<SignInIndex onSubmit={onSubmit} />)
+}
+
+const SignInIndex = ({onSubmit}) => {
+  
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
