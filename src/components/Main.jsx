@@ -26,7 +26,7 @@ const Main = () => {
   };
 
   useEffect(() => {getAccessToken()}, [])
-
+console.log(token)
   return (
     <View style={styles.container}>
       <AppBar token={token} setToken={setToken} />
