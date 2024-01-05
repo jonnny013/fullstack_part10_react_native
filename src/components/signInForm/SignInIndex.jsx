@@ -20,17 +20,14 @@ const validationSchema = yup.object().shape({
     .required('Password is required')
 })
 
-const SignInIndex = ({setToken}) => {
-  
+const SignInIndex = () => {
   const [signIn ] = useSignIn();
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
     const {username, password} = values;
     try {
-      const {data} = await signIn({username, password});
-      console.log(data)
-      setToken({token: data.authenticate.accessToken})
+      await signIn({username, password});
       navigate('/')
     } catch (e) {
       console.log(e);

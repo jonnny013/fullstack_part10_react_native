@@ -3,7 +3,11 @@ import Constants from 'expo-constants';
 import theme from '../../theme';
 import AppBarTab from './AppBarTab';
 import {Link, useNavigate} from 'react-router-native';
-import AuthStorage from '../../utils/authStorage';
+import useAuthStorage from '../../hooks/useAuthStorage';
+import {GET_CLIENT} from '../../graphql/queries';
+import {useQuery, useApolloClient} from '@apollo/client';
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -15,22 +19,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBar = ({setToken, token}) => {
-  const authStorage = new AuthStorage();
+const AppBar = () => {
+  const client = useApolloClient()
+  
+  const authStorage = useAuthStorage();
   const navigate = useNavigate();
+  const {data} = useQuery(GET_CLIENT);
+  
 
-  const handleSignOut = () => {
-    authStorage.removeAccessToken();
-    setToken(null)
+  const handleSignOut = async () => {
+    await authStorage.removeAccessToken();
+    client.resetStore();
     navigate('/');
   };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <Link to='/'>
           <AppBarTab tabName='Repositories' />
         </Link>
-        {token ? (
+        {data && data.me ? (
           <Pressable onPress={handleSignOut}>
             <AppBarTab tabName='Sign Out' />
           </Pressable>
@@ -39,9 +48,6 @@ const AppBar = ({setToken, token}) => {
             <AppBarTab tabName='Sign In' />
           </Link>
         )}
-        <Pressable onPress={handleSignOut}>
-          <AppBarTab tabName='Sign Out' />
-        </Pressable>
       </ScrollView>
     </View>
   );

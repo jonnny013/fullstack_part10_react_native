@@ -1,27 +1,23 @@
-import {useMutation} from '@apollo/client';
+import {useMutation, useApolloClient} from '@apollo/client';
 import {SIGN_IN} from '../graphql/mutations';
-import {useContext} from 'react';
-import AuthStorageContext from '../contexts/AuthStorageContext';
-import AuthStorage from '../utils/authStorage';
+import useAuthStorage from '../hooks/useAuthStorage';
 
 
 const useSignIn = () => {
-  //const authStorageCont = useContext(AuthStorageContext);
+  const authStorage = useAuthStorage();
+  const client = useApolloClient();
   const [mutate, result] = useMutation(SIGN_IN);
 
   const signIn = async ({username, password}) => {
     try {
       const credentials = {username, password};
-      const { data } = await mutate({variables: {credentials}});
-      const authStorage = new AuthStorage
-      await authStorage.setAccessToken(data.authenticate.accessToken);
-      return {data}
+      const {data} = await mutate({variables: {credentials}});
+      authStorage.setAccessToken({token: data.authenticate.accessToken});
+      await client.resetStore();
+      return data;
     } catch (error) {
-      console.error('Sign in error: ', error.message);
-      if (error.networkError) {
-        console.error('Network error details:', error.networkError);
-      }
-      return error
+      console.error('Sign in error', error.message);
+      return error;
     }
   };
 
