@@ -4,7 +4,10 @@ import theme from '../../theme';
 import AppBarTab from './AppBarTab';
 import {Link, useNavigate} from 'react-router-native';
 import useAuthStorage from '../../hooks/useAuthStorage';
-import {useEffect, useState} from 'react';
+import {GET_CLIENT} from '../../graphql/queries';
+import {useQuery, useApolloClient} from '@apollo/client';
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -17,32 +20,26 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const [token, setToken] = useState(null);
+  const client = useApolloClient()
+  
   const authStorage = useAuthStorage();
   const navigate = useNavigate();
+  const {data} = useQuery(GET_CLIENT);
+  
 
-  useEffect(() => {
-    const fetchAccessToken = async () => {
-      const accessToken = await authStorage.getAccessToken();
-      setToken(accessToken);
-    };
-
-    fetchAccessToken();
-  }, [authStorage]);
-
-  const handleSignOut = () => {
-    authStorage.removeAccessToken();
-    setToken(null);
+  const handleSignOut = async () => {
+    await authStorage.removeAccessToken();
+    client.resetStore();
     navigate('/');
   };
-  console.log(token)
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <Link to='/'>
           <AppBarTab tabName='Repositories' />
         </Link>
-        {token ? (
+        {data && data.me ? (
           <Pressable onPress={handleSignOut}>
             <AppBarTab tabName='Sign Out' />
           </Pressable>
