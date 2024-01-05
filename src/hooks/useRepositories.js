@@ -13,7 +13,6 @@ const useRepositories = () => {
       setRepositories(data.repositories);
     }
   }, [loading, error, data]);
-  console.log('userepo', repositories)
   return {repositories, loading, error};
 };
 

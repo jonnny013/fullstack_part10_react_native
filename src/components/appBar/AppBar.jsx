@@ -32,7 +32,6 @@ const AppBar = () => {
     client.resetStore();
     navigate('/');
   };
-
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
