@@ -2,6 +2,7 @@ import {View, Image, StyleSheet} from 'react-native';
 import NumbersBox from './NumbersBox';
 import theme from '../../theme';
 import PersonalInfo from './PersonalInfo';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   headShot: {
@@ -39,19 +40,21 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = ({repo}) => {
   return (
-    <View style={styles.mainCard} testID='repositoryItem'>
-      <View style={styles.topContainer}>
-        <Image style={styles.headShot} source={{uri: repo.ownerAvatarUrl}} />
-        <PersonalInfo repo={repo} />
-      </View>
+    <Link to='/singleRepo' state={{id: repo.id}}>
+      <View style={styles.mainCard} testID='repositoryItem'>
+        <View style={styles.topContainer}>
+          <Image style={styles.headShot} source={{uri: repo.ownerAvatarUrl}} />
+          <PersonalInfo repo={repo} />
+        </View>
 
-      <View style={styles.bottomContainer}>
-        <NumbersBox text='Stars' number={repo.stargazersCount} />
-        <NumbersBox text='Forks' number={repo.forksCount} />
-        <NumbersBox text='Reviews' number={repo.reviewCount} />
-        <NumbersBox text='Ratings' number={repo.ratingAverage} />
+        <View style={styles.bottomContainer}>
+          <NumbersBox text='Stars' number={repo.stargazersCount} />
+          <NumbersBox text='Forks' number={repo.forksCount} />
+          <NumbersBox text='Reviews' number={repo.reviewCount} />
+          <NumbersBox text='Ratings' number={repo.ratingAverage} />
+        </View>
       </View>
-    </View>
+    </Link>
   );
 };
 

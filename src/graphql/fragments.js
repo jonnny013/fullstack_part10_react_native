@@ -11,5 +11,6 @@ export const PERSON_DETAILS = gql`
     ratingAverage
     reviewCount
     id
+    url
   }
 `;
