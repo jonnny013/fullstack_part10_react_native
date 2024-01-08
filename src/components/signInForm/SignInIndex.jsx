@@ -21,23 +21,28 @@ const validationSchema = yup.object().shape({
 })
 
 export const SignInContainer = () => {
-  const [signIn ] = useSignIn();
+  const [signIn, result ] = useSignIn();
   const navigate = useNavigate();
-
+  console.log('result',result)
   const onSubmit = async (values) => {
     const {username, password} = values;
     try {
       await signIn({username, password});
-      navigate('/')
+      if (result.data) {
+        navigate('/');
+      } else if (result.error) {
+        console.log('Sign in error:', result.error);
+      }
+      
     } catch (e) {
-      console.log(e);
+      console.log('Sign in error:', e);
     }
   };
   return (<SignInIndex onSubmit={onSubmit} />)
 }
 
 const SignInIndex = ({onSubmit}) => {
-  
+
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>

@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
 
 
 const ReviewItem = ({review}) => {
-  console.log('item', review)
   return (
     <View style={styles.mainCard}>
       <View style={styles.reviewNumber}>

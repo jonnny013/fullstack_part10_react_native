@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 
 
 const SignIn = ({onSubmit}) => {
-  
   return (
     <View style={styles.container}>
       <FormikTextInput name='username' placeholder='Username' />

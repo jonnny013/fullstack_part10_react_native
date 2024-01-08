@@ -3,8 +3,9 @@ import {Route, Routes, Navigate} from 'react-router-native';
 import RepositoryList from './repoCards/RepositoryList';
 import AppBar from './appBar/AppBar';
 import theme from '../theme';
-import SignInIndex from './signInForm/SignInIndex';
+import { SignInContainer } from './signInForm/SignInIndex';
 import SingleRepo from './repoCards/SingleRepo'
+import ReviewIndex from './createReview/ReviewIndex';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,8 +23,9 @@ const Main = () => {
       <AppBar  />
       <Routes>
         <Route path='/' element={<RepositoryList />} />
-        <Route path='/SignIn' element={<SignInIndex  />} />
+        <Route path='/SignIn' element={<SignInContainer  />} />
         <Route path='/repos/:id' element={<SingleRepo />} />
+        <Route path='/createReview' element={<ReviewIndex />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </View>
