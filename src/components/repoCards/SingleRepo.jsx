@@ -83,6 +83,7 @@ const SingleRepo =  () => {
   if (!repository) {
     return <Text>No repo found</Text>;
   }
+  console.log(repository)
   return (<SingleRepoDisplay repo={repository} />)
 }
 
