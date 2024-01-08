@@ -1,11 +1,12 @@
-import {View, Image, StyleSheet, Pressable} from 'react-native';
+import {View, Image, StyleSheet, Pressable, FlatList} from 'react-native';
 import Text from '../Text';
 import NumbersBox from './NumbersBox';
 import theme from '../../theme';
 import PersonalInfo from './PersonalInfo';
-import useSingleRepo from '../../hooks/useSingleRepo'
-import { useParams } from 'react-router-native';
+import useSingleRepo from '../../hooks/useSingleRepo';
+import {useParams} from 'react-router-native';
 import * as Linking from 'expo-linking';
+import ReviewItem from './ReviewItem';
 
 const styles = StyleSheet.create({
   headShot: {
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
     margin: 9,
     borderRadius: 5,
     padding: 9,
-
   },
   linkText: {
     color: theme.colors.textWithBackground,
@@ -40,8 +40,14 @@ const styles = StyleSheet.create({
   },
   mainCard: {
     backgroundColor: theme.colors.cardBackground,
+    marginBottom: 10
+  },
+  separator: {
+    height: 10,
   },
 });
+
+const ItemSeparator = () => <View style={styles.separator} />;
 
 const SingleRepoDisplay = ({repo}) => {
   return (
@@ -59,19 +65,20 @@ const SingleRepoDisplay = ({repo}) => {
       </View>
       <View style={styles.linkContainer}>
         <Pressable onPress={() => Linking.openURL(repo.url)}>
-          <Text fontWeight='bold' style={styles.linkText}>Open in GitHub</Text>
+          <Text fontWeight='bold' style={styles.linkText}>
+            Open in GitHub
+          </Text>
         </Pressable>
       </View>
     </View>
   );
 };
 
-const SingleRepo =  () => {
-
-  const {id} = useParams()
+const SingleRepo = () => {
+  const {id} = useParams();
 
   const {repository, loading, error} = useSingleRepo({repositoryId: id});
-  
+
   if (loading) {
     return <Text>Loading...</Text>;
   }
@@ -83,8 +90,18 @@ const SingleRepo =  () => {
   if (!repository) {
     return <Text>No repo found</Text>;
   }
-  console.log(repository)
-  return (<SingleRepoDisplay repo={repository} />)
-}
+
+  const reviews = repository ? repository.reviews.edges.map(edge => edge.node) : [];
+  
+  return (
+    <FlatList
+      data={reviews}
+      ItemSeparatorComponent={ItemSeparator}
+      renderItem={({item}) => <ReviewItem review={item} />}
+      keyExtractor={item => item.id}
+      ListHeaderComponent={() => <SingleRepoDisplay repo={repository} />}
+    />
+  );
+};
 
 export default SingleRepo;
