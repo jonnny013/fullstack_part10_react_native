@@ -1,9 +1,11 @@
-import {View, Image, StyleSheet, Text} from 'react-native';
+import {View, Image, StyleSheet, Pressable} from 'react-native';
+import Text from '../Text';
 import NumbersBox from './NumbersBox';
 import theme from '../../theme';
 import PersonalInfo from './PersonalInfo';
 import useSingleRepo from '../../hooks/useSingleRepo'
-import { useLocation } from 'react-router-native';
+import { useParams } from 'react-router-native';
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
   headShot: {
@@ -23,16 +25,18 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-  language: {
+  linkContainer: {
     backgroundColor: theme.colors.languageBackground,
-    alignSelf: 'flex-start',
+    margin: 9,
     borderRadius: 5,
-    padding: 3,
+    padding: 9,
+
   },
-  languageText: {
+  linkText: {
     color: theme.colors.textWithBackground,
     marginLeft: 6,
     marginRight: 6,
+    textAlign: 'center',
   },
   mainCard: {
     backgroundColor: theme.colors.cardBackground,
@@ -53,14 +57,18 @@ const SingleRepoDisplay = ({repo}) => {
         <NumbersBox text='Reviews' number={repo.reviewCount} />
         <NumbersBox text='Ratings' number={repo.ratingAverage} />
       </View>
+      <View style={styles.linkContainer}>
+        <Pressable onPress={() => Linking.openURL(repo.url)}>
+          <Text fontWeight='bold' style={styles.linkText}>Open in GitHub</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const SingleRepo =  () => {
-  const {state} = useLocation();
 
-  const id = state.id
+  const {id} = useParams()
 
   const {repository, loading, error} = useSingleRepo({repositoryId: id});
   

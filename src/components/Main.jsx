@@ -23,7 +23,7 @@ const Main = () => {
       <Routes>
         <Route path='/' element={<RepositoryList />} />
         <Route path='/SignIn' element={<SignInIndex  />} />
-        <Route path='/singleRepo' element={<SingleRepo />} />
+        <Route path='/repos/:id' element={<SingleRepo />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </View>

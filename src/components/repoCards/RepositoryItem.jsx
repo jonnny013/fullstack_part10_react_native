@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = ({repo}) => {
   return (
-    <Link to='/singleRepo' state={{id: repo.id}}>
+    <Link to={`/repos/${repo.id}`}>
       <View style={styles.mainCard} testID='repositoryItem'>
         <View style={styles.topContainer}>
           <Image style={styles.headShot} source={{uri: repo.ownerAvatarUrl}} />
