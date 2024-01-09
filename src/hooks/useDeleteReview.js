@@ -6,9 +6,10 @@ const useDeleteReview = () => {
   
   const [mutate, result] = useMutation(DELETE_REVIEW);
 
-  const deleteReview = async ({deleteReviewId}) => {
+  const deleteReview = async (deleteReviewId) => {
     try {
       const {data} = await mutate({variables: {deleteReviewId}});
+      console.log(data)
       return data;
     } catch (error) {
       console.error('Deletion error', error.message);
