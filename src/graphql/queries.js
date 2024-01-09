@@ -46,10 +46,22 @@ export const GET_REPOSITORY = gql`
 `;
 
 export const GET_CLIENT = gql`
-query {
-  me {
-    username
-    id
+  query getCurrentUser($includeReviews: Boolean = false) {
+    me {
+      username
+      id
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            rating
+            text
+            createdAt
+            repository {
+              fullName
+            }
+          }
+        }
+      }
+    }
   }
-}
-`
+`;
