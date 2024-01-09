@@ -26,7 +26,6 @@ const AppBar = () => {
   const navigate = useNavigate();
   const {data} = useQuery(GET_CLIENT);
   
-
   const handleSignOut = async () => {
     await authStorage.removeAccessToken();
     client.resetStore();
@@ -52,6 +51,9 @@ const AppBar = () => {
             <AppBarTab tabName='Sign In' />
           </Link>
         )}
+        {!data.me && <Link to='/createUser'>
+            <AppBarTab tabName='Sign Up' />
+          </Link>}
       </ScrollView>
     </View>
   );
