@@ -1,22 +1,17 @@
-import { View } from 'react-native'
-import React from 'react'
+import {View} from 'react-native';
+import React from 'react';
 import {TextInput} from 'react-native-paper';
 
-
-
 const RepoSearchBar = ({setSearchKeyword, searchKeyword}) => {
-  
   return (
     <View>
       <TextInput
         label='Repository search'
         value={searchKeyword}
-        onChangeText={text => {
-          console.log('e',text)
-          setSearchKeyword(text)}}
+        onChangeText={text => setSearchKeyword(text)}
       />
     </View>
   );
 };
 
-export default RepoSearchBar
+export default RepoSearchBar;

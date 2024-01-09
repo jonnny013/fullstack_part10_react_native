@@ -43,14 +43,12 @@ const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [value] = useDebounce(searchKeyword, 1000);
+  const [value] = useDebounce(searchKeyword, 500);
   const {repositories, loading, error} = useRepositories({
     orderBy,
     orderDirection,
     searchKeyword: value,
   });
-  
-  console.log('value', value);
 
   const handleItemPress = type => {
     switch (type) {
