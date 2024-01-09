@@ -1,10 +1,11 @@
 import {FlatList, View, StyleSheet} from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../../hooks/useRepositories';
-import React, { useState} from 'react';
+import React, { useState, Component} from 'react';
 import Text from '../Text';
 import ReposHeader from './ReposHeader';
 import {useDebounce} from 'use-debounce';
+import RepoSearchBar from './RepoSearchBar';
 
 const styles = StyleSheet.create({
   separator: {
@@ -14,42 +15,41 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({
-  repositories,
-  handleItemPress,
-  setSearchKeyword,
-  searchKeyword,
-}) => {
-  const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
+class RepositoryListContainer extends Component {
+  render() {
+    const {repositories, handleItemPress, setSearchKeyword, searchKeyword} = this.props;
+    const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
 
-  return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({item}) => <RepositoryItem repo={item} />}
-      keyExtractor={item => item.id}
-      ListHeaderComponent={() => (
-        <ReposHeader
-          handleItemPress={handleItemPress}
-          setSearchKeyword={setSearchKeyword}
-          searchKeyword={searchKeyword}
-        />
-      )}
-    />
-  );
-};
+    return (
+      <FlatList
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({item}) => <RepositoryItem repo={item} />}
+        keyExtractor={item => item.id}
+        ListHeaderComponent={() => (
+          <ReposHeader
+            handleItemPress={handleItemPress}
+            setSearchKeyword={setSearchKeyword}
+            searchKeyword={searchKeyword}
+          />
+        )}
+      />
+    );
+  }
+}
 
 
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [value] = useDebounce(searchKeyword, 1000);
   const {repositories, loading, error} = useRepositories({
     orderBy,
     orderDirection,
     searchKeyword: value,
   });
-  const [value] = useDebounce(searchKeyword, 1000);
+  
   console.log('value', value);
 
   const handleItemPress = type => {
@@ -86,12 +86,15 @@ const RepositoryList = () => {
   }
 
   return (
-    <RepositoryListContainer
-      repositories={repositories}
-      handleItemPress={handleItemPress}
-      setSearchKeyword={setSearchKeyword}
-      searchKeyword={searchKeyword}
-    />
+    <>
+      <RepoSearchBar setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
+      <RepositoryListContainer
+        repositories={repositories}
+        handleItemPress={handleItemPress}
+        setSearchKeyword={setSearchKeyword}
+        searchKeyword={searchKeyword}
+      />
+    </>
   );
 };
 
