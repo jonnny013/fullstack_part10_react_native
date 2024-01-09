@@ -6,6 +6,7 @@ import theme from '../theme';
 import { SignInContainer } from './signInForm/SignInIndex';
 import SingleRepo from './repoCards/SingleRepo'
 import ReviewIndex from './createReview/ReviewIndex';
+import  SignUpContainer  from './signUpForm/SignUpIndex';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +27,7 @@ const Main = () => {
         <Route path='/SignIn' element={<SignInContainer  />} />
         <Route path='/repos/:id' element={<SingleRepo />} />
         <Route path='/createReview' element={<ReviewIndex />} />
+        <Route path='/createUser' element={<SignUpContainer />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </View>

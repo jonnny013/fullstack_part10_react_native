@@ -61,4 +61,4 @@ const SignUp = ({onSubmit}) => {
   );
 };
 
-export default SignUp;
+export default SignUpContainer;
