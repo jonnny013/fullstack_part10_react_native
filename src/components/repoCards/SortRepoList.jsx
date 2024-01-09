@@ -12,7 +12,7 @@ const SortRepoList = ({handleItemPress}) => {
     <List.Section>
       <List.Accordion
         title='Sort Repositories'
-        left={props => <List.Icon {...props} icon='folder' />}
+        left={props => <List.Icon {...props} icon='sort-reverse-variant' />}
         expanded={expanded}
         onPress={handlePress}
       >
