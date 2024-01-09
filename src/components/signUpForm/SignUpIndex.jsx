@@ -8,6 +8,7 @@ import SignUpForm from './SignUpForm';
 const initialValues = {
   username: '',
   password: '',
+  passwordConfirm: ''
 };
 
 const validationSchema = yup.object().shape({
@@ -21,6 +22,10 @@ const validationSchema = yup.object().shape({
     .min(5, 'Password must be 6 characters or longer')
     .max(30, 'Password must be less than 30 characters')
     .required('Password is required'),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref('password'), null])
+    .required('Please confirm password')
 });
 
 export const SignUpContainer = () => {
