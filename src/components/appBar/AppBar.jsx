@@ -51,7 +51,7 @@ const AppBar = () => {
             <AppBarTab tabName='Sign In' />
           </Link>
         )}
-        {!data.me && <Link to='/createUser'>
+        {!data || !data.me && <Link to='/createUser'>
             <AppBarTab tabName='Sign Up' />
           </Link>}
       </ScrollView>
