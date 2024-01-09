@@ -28,13 +28,31 @@ export const RepositoryListContainer = ({repositories, handleItemPress}) => {
 
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
-  const [orderDirection, setOrderDirection] = useState('ASC');
+  const [orderDirection, setOrderDirection] = useState('DESC');
   const {repositories} = useRepositories();
 
   const handleItemPress = type => {
     console.log(type);
+    switch (type) {
+      case 'time-desc':
+        setOrderBy('CREATED_AT');
+        setOrderDirection('DESC');
+        break;
+      case 'rating-desc':
+        setOrderBy('RATING_AVERAGE');
+        setOrderDirection('DESC');
+        break;
+      case 'rating-asc':
+        setOrderBy('RATING_AVERAGE');
+        setOrderDirection('ASC');
+        break;
+      default:
+        setOrderBy('CREATED_AT');
+        setOrderDirection('DESC');
+        break;
+    }
   };
-
+  console.log(orderBy, orderDirection);
   return (
     <RepositoryListContainer
       repositories={repositories}
