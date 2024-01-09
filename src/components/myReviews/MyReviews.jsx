@@ -1,9 +1,11 @@
-import { View, FlatList, StyleSheet } from 'react-native'
+import { View, FlatList, StyleSheet, Alert } from 'react-native'
 import React from 'react'
 import useClient from '../../hooks/useClient'
 import theme from '../../theme';
 import ReviewItem from './ReviewItem'
 import Text from '../Text';
+import useDeleteReview from '../../hooks/useDeleteReview';
+
 
 const styles = StyleSheet.create({
   headShot: {
@@ -47,7 +49,31 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const MyReviews = () => {
-  const {client, loading, error} = useClient({includeReviews: true})
+  const {client, loading, error, refetch} = useClient({includeReviews: true})
+
+const [deleteReview] = useDeleteReview();
+
+const handleDeleteReview = async id => {
+  const deleteNow = async id => {
+    try {
+      await deleteReview(id);
+      refetch()
+    } catch (e) {
+      console.log('Deletion error:', e);
+    }
+  };
+  Alert.alert('Delete Review', 'Are you sure you want to delete this review?', [
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancelled'),
+      style: 'cancel',
+    },
+    {
+      text: 'Delete',
+      onPress: () => deleteNow(id),
+    },
+  ]);
+};
 
 
 if (loading) {
@@ -71,7 +97,7 @@ if (loading) {
     <FlatList
       data={reviews}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({item}) => <ReviewItem review={item} />}
+      renderItem={({item}) => <ReviewItem review={item} handleDeleteReview={handleDeleteReview} />}
       keyExtractor={item => item.id}
     />
   );

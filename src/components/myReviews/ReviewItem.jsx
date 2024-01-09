@@ -1,9 +1,9 @@
-import {StyleSheet, View, Pressable, Alert} from 'react-native';
+import {StyleSheet, View, Pressable} from 'react-native';
 import Text from '../Text';
 import theme from '../../theme';
 import {format} from 'date-fns';
 import {useNavigate} from 'react-router-native';
-import useDeleteReview from '../../hooks/useDeleteReview';
+
 const styles = StyleSheet.create({
   mainCard: {
     flex: 1,
@@ -69,32 +69,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReviewItem = ({review}) => {
+const ReviewItem = ({review, handleDeleteReview}) => {
   const navigate = useNavigate();
-  const [deleteReview] = useDeleteReview();
-
-  const handleDeleteReview = async id => {
-    console.log(id)
-    const deleteNow = async (id) => {
-      try {
-        await deleteReview(id);
-      } catch (e) {
-        console.log('Deletion error:', e);
-      }
-    };
-    Alert.alert('Delete Review', 'Are you sure you want to delete this review?', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancelled'),
-        style: 'cancel',
-      },
-      {
-        text: 'Delete',
-        onPress: () => deleteNow(id),
-      },
-    ]); 
-    
-  };
+  
 
   return (
     <View style={styles.mainCard}>

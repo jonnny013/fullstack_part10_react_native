@@ -5,7 +5,7 @@ import {GET_CLIENT} from '../graphql/queries';
 
 const useClient = ({includeReviews}) => {
   const [client, setClient] = useState();
-  const {data, error, loading} = useQuery(GET_CLIENT, {
+  const {data, error, loading, refetch} = useQuery(GET_CLIENT, {
     variables: {includeReviews},
     fetchPolicy: 'cache-and-network',
   });
@@ -13,9 +13,9 @@ const useClient = ({includeReviews}) => {
     if (data) {
       setClient(data.me);
     }
-  }, [loading, error, data]);
+  }, [loading, error, data, refetch]);
 
-  return {client, loading, error};
+  return {client, loading, error, refetch};
 };
 
 export default useClient;
