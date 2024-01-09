@@ -30,18 +30,18 @@ const validationSchema = yup.object().shape({
 });
 
 export const SignUpContainer = () => {
-  const [signUp, result] = useSignUp();
+  const [signUp] = useSignUp();
   const [signIn] = useSignIn()
   const navigate = useNavigate();
 
   const onSubmit = async values => {
     const {username, password} = values;
     try {
-      await signUp({username, password});
+      const result = await signUp({username, password});
       if (result.loading) {
         return (<Text>Loading</Text>)
       }
-      if (result.data) {
+      if (result.createUser) {
         await signIn({username, password})
         navigate('/');
       } else if (result.error) {
