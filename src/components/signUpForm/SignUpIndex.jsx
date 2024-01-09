@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import useSignUp from '../../hooks/useSignUp';
 import {useNavigate} from 'react-router-native';
 import useSignIn from '../../hooks/useSignIn';
+import SignUpForm from './SignUpForm';
 
 const initialValues = {
   username: '',
@@ -22,7 +23,7 @@ const validationSchema = yup.object().shape({
     .required('Password is required'),
 });
 
-export const SignInContainer = () => {
+export const SignUpContainer = () => {
   const [signUp, result] = useSignUp();
   const navigate = useNavigate();
 
@@ -40,10 +41,10 @@ export const SignInContainer = () => {
       console.log('Sign in error:', e);
     }
   };
-  return <SignInIndex onSubmit={onSubmit} />;
+  return <SignUp onSubmit={onSubmit} />;
 };
 
-const SignInIndex = ({onSubmit}) => {
+const SignUp = ({onSubmit}) => {
   return (
     <Formik
       initialValues={initialValues}
@@ -55,4 +56,4 @@ const SignInIndex = ({onSubmit}) => {
   );
 };
 
-export default SignInIndex;
+export default SignUp;
