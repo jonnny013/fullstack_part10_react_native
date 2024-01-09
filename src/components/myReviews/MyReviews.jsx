@@ -2,7 +2,7 @@ import { View, FlatList, StyleSheet } from 'react-native'
 import React from 'react'
 import useClient from '../../hooks/useClient'
 import theme from '../../theme';
-import ReviewItem from '../repoCards/ReviewItem';
+import ReviewItem from './ReviewItem'
 import Text from '../Text';
 
 const styles = StyleSheet.create({
@@ -65,6 +65,7 @@ if (loading) {
   const reviews = client ? client.reviews.edges.map(edge => edge.node) : [];
   console.log(reviews)
   if (reviews.length === 0) {
+    // eslint-disable-next-line react/no-unescaped-entities
     return <Text style={styles.mainCard} fontWeight='bold'>You haven't made any reviews yet!</Text>
   }
   return (
