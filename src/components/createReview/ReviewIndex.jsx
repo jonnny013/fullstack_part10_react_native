@@ -2,6 +2,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import {useNavigate} from 'react-router-native';
 import ReviewForm from './ReviewForm';
+import useCreateReview from '../../hooks/useCreateReview';
 
 const initialValues = {
   ownerName: '',
@@ -28,21 +29,21 @@ const validationSchema = yup.object().shape({
     .required('Rating is required'),
   text: yup
     .string()
-    .min(10, "Repository's name must be 10 characters or longer")
-    .required('Name is required'),
+    .min(2, "Repository's name must be 2 characters or longer")
+    .optional()
 });
 
 export const ReviewIndex = () => {
-  //const [signIn, result] = useSignIn();
+  const [createReview, result] = useCreateReview();
   const navigate = useNavigate();
-  
+
   const onSubmit = async values => {
-    console.log(values)
-    const {ownerName, repositoryName, rating, text} = values;
+    let {ownerName, repositoryName, rating, text} = values;
+    rating = Number(rating)
     try {
-      console.log('unfinished')
+      await createReview({ownerName, repositoryName, rating, text})
       if (result.data) {
-        navigate('/');
+        navigate(`/repos/${result.data.createReview.repositoryId}`);
       } else if (result.error) {
         console.log('Sign in error:', result.error);
       }
