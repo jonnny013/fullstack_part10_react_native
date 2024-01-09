@@ -42,6 +42,11 @@ const AppBar = () => {
             <AppBarTab tabName='Create a Review' />
           </Link>
         )}
+        {data && data.me && (
+          <Link to='/myReviews'>
+            <AppBarTab tabName='My Reviews' />
+          </Link>
+        )}
         {data && data.me ? (
           <Pressable onPress={handleSignOut}>
             <AppBarTab tabName='Sign Out' />
@@ -51,9 +56,12 @@ const AppBar = () => {
             <AppBarTab tabName='Sign In' />
           </Link>
         )}
-        {!data || !data.me && <Link to='/createUser'>
-            <AppBarTab tabName='Sign Up' />
-          </Link>}
+        {!data ||
+          (!data.me && (
+            <Link to='/createUser'>
+              <AppBarTab tabName='Sign Up' />
+            </Link>
+          ))}
       </ScrollView>
     </View>
   );

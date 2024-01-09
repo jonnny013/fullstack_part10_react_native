@@ -56,6 +56,7 @@ export const GET_CLIENT = gql`
             rating
             text
             createdAt
+            id
             repository {
               fullName
             }
