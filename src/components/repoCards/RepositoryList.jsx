@@ -2,7 +2,8 @@ import {FlatList, View, StyleSheet} from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../../hooks/useRepositories';
 import SortRepoList from './SortRepoList';
-import {useState} from 'react';
+import { useState} from 'react';
+import Text from '../Text';
 
 const styles = StyleSheet.create({
   separator: {
@@ -29,10 +30,9 @@ export const RepositoryListContainer = ({repositories, handleItemPress}) => {
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
-  const {repositories} = useRepositories();
+  const {repositories, loading, error} = useRepositories({orderBy, orderDirection});
 
   const handleItemPress = type => {
-    console.log(type);
     switch (type) {
       case 'time-desc':
         setOrderBy('CREATED_AT');
@@ -52,7 +52,19 @@ const RepositoryList = () => {
         break;
     }
   };
-  console.log(orderBy, orderDirection);
+  
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
+  if (!repositories) {
+    return <Text>No repos found</Text>;
+  }
+
   return (
     <RepositoryListContainer
       repositories={repositories}
