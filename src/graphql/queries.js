@@ -59,6 +59,7 @@ export const GET_CLIENT = gql`
             id
             repository {
               fullName
+              id
             }
           }
         }

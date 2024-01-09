@@ -1,13 +1,13 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Pressable } from 'react-native'
 import Text from '../Text';
 import theme from '../../theme';
 import {format } from 'date-fns'
+import { useNavigate } from 'react-router-native';
 const styles = StyleSheet.create({
   mainCard: {
     flex: 1,
     backgroundColor: theme.colors.cardBackground,
     display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'space-around',
     height: '100%',
   },
@@ -35,21 +35,76 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 10,
-  }
+  },
+  linkContainer: {
+    backgroundColor: theme.colors.languageBackground,
+    margin: 9,
+    borderRadius: 5,
+    padding: 9,
+  },
+  deleteContainer: {
+    backgroundColor: 'red',
+    margin: 9,
+    borderRadius: 5,
+    padding: 9,
+  },
+  linkText: {
+    color: theme.colors.textWithBackground,
+    marginLeft: 6,
+    marginRight: 6,
+    textAlign: 'center',
+  },
+  topContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 
 
 const ReviewItem = ({review}) => {
+  const navigate = useNavigate()
   return (
     <View style={styles.mainCard}>
-      <View style={styles.reviewNumber}>
-        <Text fontWeight='bold' style={styles.numberText}>{review.rating}</Text>
+      <View style={styles.topContainer}>
+        <View style={styles.reviewNumber}>
+          <Text fontWeight='bold' style={styles.numberText}>
+            {review.rating}
+          </Text>
+        </View>
+        <View style={styles.infoDiv}>
+          <Text fontWeight='bold'>{review.repository.fullName}</Text>
+          <Text color='textSecondary'>
+            {format(new Date(review.createdAt), 'dd-MM-yyyy')}
+          </Text>
+          <Text style={styles.description}>{review.text}</Text>
+        </View>
       </View>
-      <View style={styles.infoDiv}>
-        <Text fontWeight='bold'>{review.repository.fullName}</Text>
-        <Text color='textSecondary'>{format(new Date(review.createdAt), 'dd-MM-yyyy' )}</Text>
-        <Text style={styles.description}>{review.text}</Text>
+      <View style={styles.buttonContainer}>
+        <Pressable
+          style={styles.linkContainer}
+          onPress={() => navigate(`/repos/${review.repository.id}`)}
+        >
+          <Text fontWeight='bold' style={styles.linkText}>
+            View Repository
+          </Text>
+        </Pressable>
+        <Pressable
+          style={styles.deleteContainer}
+          onPress={() => console.log('delete')}
+        >
+          <Text fontWeight='bold' style={styles.linkText}>
+            Delete review
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
