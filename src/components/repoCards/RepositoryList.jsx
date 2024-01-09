@@ -1,9 +1,10 @@
 import {FlatList, View, StyleSheet} from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../../hooks/useRepositories';
-import SortRepoList from './SortRepoList';
-import { useState} from 'react';
+import React, { useState} from 'react';
 import Text from '../Text';
+import ReposHeader from './ReposHeader';
+import {useDebounce} from 'use-debounce';
 
 const styles = StyleSheet.create({
   separator: {
@@ -13,7 +14,12 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({repositories, handleItemPress}) => {
+export const RepositoryListContainer = ({
+  repositories,
+  handleItemPress,
+  setSearchKeyword,
+  searchKeyword,
+}) => {
   const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
 
   return (
@@ -22,15 +28,29 @@ export const RepositoryListContainer = ({repositories, handleItemPress}) => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({item}) => <RepositoryItem repo={item} />}
       keyExtractor={item => item.id}
-      ListHeaderComponent={() => <SortRepoList handleItemPress={handleItemPress} />}
+      ListHeaderComponent={() => (
+        <ReposHeader
+          handleItemPress={handleItemPress}
+          setSearchKeyword={setSearchKeyword}
+          searchKeyword={searchKeyword}
+        />
+      )}
     />
   );
 };
 
+
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
-  const {repositories, loading, error} = useRepositories({orderBy, orderDirection});
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const {repositories, loading, error} = useRepositories({
+    orderBy,
+    orderDirection,
+    searchKeyword: value,
+  });
+  const [value] = useDebounce(searchKeyword, 1000);
+  console.log('value', value);
 
   const handleItemPress = type => {
     switch (type) {
@@ -52,7 +72,7 @@ const RepositoryList = () => {
         break;
     }
   };
-  
+
   if (loading) {
     return <Text>Loading...</Text>;
   }
@@ -69,6 +89,8 @@ const RepositoryList = () => {
     <RepositoryListContainer
       repositories={repositories}
       handleItemPress={handleItemPress}
+      setSearchKeyword={setSearchKeyword}
+      searchKeyword={searchKeyword}
     />
   );
 };
