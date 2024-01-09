@@ -48,7 +48,7 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const MyReviews = () => {
   const {client, loading, error} = useClient({includeReviews: true})
-  console.log(client)
+
 
 if (loading) {
     return <Text>Loading...</Text>;
@@ -63,7 +63,6 @@ if (loading) {
   }
 
   const reviews = client ? client.reviews.edges.map(edge => edge.node) : [];
-  console.log(reviews)
   if (reviews.length === 0) {
     // eslint-disable-next-line react/no-unescaped-entities
     return <Text style={styles.mainCard} fontWeight='bold'>You haven't made any reviews yet!</Text>

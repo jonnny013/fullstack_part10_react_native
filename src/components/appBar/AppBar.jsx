@@ -21,11 +21,9 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const client = useApolloClient()
-  
   const authStorage = useAuthStorage();
   const navigate = useNavigate();
   const {data} = useQuery(GET_CLIENT);
-  
   const handleSignOut = async () => {
     await authStorage.removeAccessToken();
     client.resetStore();
