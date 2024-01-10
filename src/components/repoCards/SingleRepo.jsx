@@ -77,7 +77,11 @@ const SingleRepoDisplay = ({repo}) => {
 const SingleRepo = () => {
   const {id} = useParams();
 
-  const {repository, loading, error} = useSingleRepo({repositoryId: id});
+  const {repository, loading, error, fetchMore} = useSingleRepo({repositoryId: id, first: 4});
+
+  const onEndReach = () => {
+    fetchMore()
+  }
 
   if (loading) {
     return <Text>Loading...</Text>;
@@ -100,6 +104,8 @@ const SingleRepo = () => {
       renderItem={({item}) => <ReviewItem review={item} />}
       keyExtractor={item => item.id}
       ListHeaderComponent={() => <SingleRepoDisplay repo={repository} />}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
