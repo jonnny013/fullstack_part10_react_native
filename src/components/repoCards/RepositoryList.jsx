@@ -1,4 +1,4 @@
-import {FlatList, View, StyleSheet} from 'react-native';
+import {FlatList, View, StyleSheet, } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../../hooks/useRepositories';
 import React, { useState, Component} from 'react';
@@ -17,7 +17,7 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 class RepositoryListContainer extends Component {
   render() {
-    const {repositories, handleItemPress, setSearchKeyword, searchKeyword} = this.props;
+    const {repositories, handleItemPress, setSearchKeyword, searchKeyword, onEndReach} = this.props;
     const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
 
     return (
@@ -33,6 +33,8 @@ class RepositoryListContainer extends Component {
             searchKeyword={searchKeyword}
           />
         )}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
       />
     );
   }
@@ -44,11 +46,16 @@ const RepositoryList = () => {
   const [orderDirection, setOrderDirection] = useState('DESC');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [value] = useDebounce(searchKeyword, 500);
-  const {repositories, loading, error} = useRepositories({
+  const {repositories, loading, error, fetchMore} = useRepositories({
     orderBy,
     orderDirection,
     searchKeyword: value,
+    first: 8
   });
+
+  const onEndReach = () => {
+    fetchMore()
+  }
 
   const handleItemPress = type => {
     switch (type) {
@@ -91,6 +98,7 @@ const RepositoryList = () => {
         handleItemPress={handleItemPress}
         setSearchKeyword={setSearchKeyword}
         searchKeyword={searchKeyword}
+        onEndReach={onEndReach}
       />
     </>
   );
